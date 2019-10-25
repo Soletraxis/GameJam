@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public int playerIndex = 1;
     private Rigidbody playerBody;
+    private RaycastHit target;
 
     private void Start()
     {
@@ -41,14 +42,13 @@ public class Player : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal" + index);
         float vertical = Input.GetAxis("Vertical" + index);
-        Debug.Log(horizontal);
     }
 
     private void PlayerRTrig(int index)
     {
         if(Input.GetAxis("RTrig" + index) > 0.0f)
         {
-            
+            CastRaycast("slow");
         }
     }
 
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("LTrig" + index) > 0.0f)
         {
-
+            CastRaycast("haste");
         }
     }
 
@@ -70,26 +70,30 @@ public class Player : MonoBehaviour
 
     private void FindTargetAction()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit)) 
-        {
-            CastRaycast(hit);
-        }
-        if (Physics.Raycast(transform.position, Vector3.back, out hit))
-        {
-            CastRaycast(hit);
-        }
+        Physics.Raycast(transform.position, Vector3.forward, out target);
     }
 
-    private void CastRaycast(RaycastHit hit)
+    private void CastRaycast(string slowOrHaste)
     {
-        Debug.DrawLine(transform.position, hit.point);
-        TimeChangeableObject Hitted = hit.collider.GetComponent<TimeChangeableObject>();
+        Debug.DrawLine(transform.position, target.point);
+        TimeChangeableObject Hitted = target.collider.GetComponent<TimeChangeableObject>();
 
         if (Hitted != null)
         {
-            Hitted.slowMo();
+            ImplementSlowOrHaste(slowOrHaste, Hitted);
+        }
+    }
+
+    private void ImplementSlowOrHaste(string slowOrHaste, TimeChangeableObject Hitted)
+    {
+        switch(slowOrHaste)
+        {
+            case "slow":
+                Hitted.slow();
+                break;
+            case "haste":
+                Hitted.haste();
+                break;
         }
     }
 }

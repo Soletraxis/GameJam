@@ -27,9 +27,12 @@ public class TimeChangeableObject : MonoBehaviour
         }
     }
 
-    public void slowMo()
+    public void slow()
     {
         print("PENIS TAKI DLUGI ZE GO ODBIJAM KOLANEM");
     }
-
+    public void haste()
+    {
+        print("haste");
+    }
 }
