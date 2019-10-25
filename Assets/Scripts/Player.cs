@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal" + index);
         float vertical = Input.GetAxis("Vertical" + index);
+        Debug.Log(horizontal);
     }
 
     private void PlayerRTrig(int index)
