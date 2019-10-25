@@ -276,10 +276,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerIndex: 1
-  acceleration: 5000
+  acceleration: 10000
   topspeed: 30
   turningspeed: 150
-  wheelMaxRotation: 10
+  wheelMaxRotation: 30
   allWheels:
   - {fileID: 2106629410}
   - {fileID: 501484598}

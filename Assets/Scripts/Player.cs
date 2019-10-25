@@ -33,9 +33,8 @@ public class Player : MonoBehaviour
         {
             case State.Normal:
                 PlayerMovement(playerIndex);
-                PlayerRTrig(playerIndex);
                 PlayerBButton(playerIndex);
-                PlayerLTrig(playerIndex);
+                PlayerAButton(playerIndex);
                 break;
         }
     }
@@ -43,12 +42,16 @@ public class Player : MonoBehaviour
     private void PlayerMovement(int index)
     {
         float horizontal = Input.GetAxis("Horizontal" + index);
-        float vertical = -Input.GetAxis("Vertical" + index);
+        float verticalGo = Input.GetAxis("RTrig" + index);
+        float verticalStop = -Input.GetAxis("LTrig" + index);
+        float brake = Input.GetAxis("CButton" + index);
+        float vertical = verticalGo + verticalStop;
 
         foreach (WheelCollider wheel in frontWheels)
         {
             wheel.motorTorque = vertical * Time.deltaTime * acceleration;
-            wheel.steerAngle += turningspeed * horizontal * Time.deltaTime;
+            wheel.brakeTorque = 4 * brake * Time.deltaTime * acceleration;
+            wheel.steerAngle = turningspeed * horizontal;
             if(wheel.steerAngle >= wheelMaxRotation)
             {
                 wheel.steerAngle = wheelMaxRotation;
@@ -60,17 +63,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void PlayerRTrig(int index)
+    private void PlayerAButton(int index)
     {
-        if(Input.GetAxis("RTrig" + index) > 0.0f)
-        {
-            CastRaycast("slow");
-        }
-    }
-
-    private void PlayerLTrig(int index)
-    {
-        if (Input.GetAxis("LTrig" + index) > 0.0f)
+        if (Input.GetAxis("AButton" + index) > 0.0f)
         {
             CastRaycast("haste");
         }
@@ -80,7 +75,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("BButton" + index) > 0.0f)
         {
-            
+            CastRaycast("slow");
         }
     }
 
