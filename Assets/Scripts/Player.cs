@@ -5,8 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int playerIndex = 1;
+    public float acceleration = 20f;
+    public float topspeed = 30f;
+    public float turningspeed = 5;
+    public float wheelMaxRotation = 30f;
     private Rigidbody playerBody;
     private RaycastHit target;
+
+    [SerializeField] private List<WheelCollider> allWheels = new List<WheelCollider>();
+    [SerializeField] public List<WheelCollider> frontWheels = new List<WheelCollider>();
 
     private void Start()
     {
@@ -25,10 +32,10 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case State.Normal:
-                /*PlayerMovement(playerIndex);
+                PlayerMovement(playerIndex);
                 PlayerRTrig(playerIndex);
                 PlayerBButton(playerIndex);
-                PlayerLTrig(playerIndex);*/
+                PlayerLTrig(playerIndex);
                 break;
         }
     }
@@ -41,7 +48,21 @@ public class Player : MonoBehaviour
     private void PlayerMovement(int index)
     {
         float horizontal = Input.GetAxis("Horizontal" + index);
-        float vertical = Input.GetAxis("Vertical" + index);
+        float vertical = -Input.GetAxis("Vertical" + index);
+
+        foreach (WheelCollider wheel in frontWheels)
+        {
+            wheel.motorTorque = vertical * Time.deltaTime * acceleration;
+            wheel.steerAngle += turningspeed * horizontal * Time.deltaTime;
+            if(wheel.steerAngle >= wheelMaxRotation)
+            {
+                wheel.steerAngle = wheelMaxRotation;
+            }
+            else if(wheel.steerAngle <= -wheelMaxRotation)
+            {
+                wheel.steerAngle = -wheelMaxRotation;
+            }
+        }
     }
 
     private void PlayerRTrig(int index)
