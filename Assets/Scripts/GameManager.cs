@@ -28,13 +28,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Cursor.visible = true;
-        Time.timescale = 0;
+        Time.timeScale = 0;
     }
 
     public void ReloadGame()
     {
         Cursor.visible = false;
-        Time.timescale = 1;
+        Time.timeScale = 1;
         SceneManager.LoadScene("Game");
     }
 }
