@@ -24,17 +24,17 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case State.Normal:
-                PlayerMovement(playerIndex);
+                /*PlayerMovement(playerIndex);
                 PlayerRTrig(playerIndex);
                 PlayerBButton(playerIndex);
-                PlayerLTrig(playerIndex);
+                PlayerLTrig(playerIndex);*/
                 break;
         }
     }
 
     private void FixedUpdate()
     {
-        
+        FindTargetAction();
     }
 
     private void PlayerMovement(int index)
@@ -65,6 +65,31 @@ public class Player : MonoBehaviour
         if (Input.GetAxis("BButton" + index) > 0.0f)
         {
             
+        }
+    }
+
+    private void FindTargetAction()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit)) 
+        {
+            CastRaycast(hit);
+        }
+        if (Physics.Raycast(transform.position, Vector3.back, out hit))
+        {
+            CastRaycast(hit);
+        }
+    }
+
+    private void CastRaycast(RaycastHit hit)
+    {
+        Debug.DrawLine(transform.position, hit.point);
+        TimeChangeableObject Hitted = hit.collider.GetComponent<TimeChangeableObject>();
+
+        if (Hitted != null)
+        {
+            Hitted.slowMo();
         }
     }
 }
