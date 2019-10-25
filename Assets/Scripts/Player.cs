@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public int playerIndex = 1;
     private Rigidbody playerBody;
-    private RaycastHit target;
+    private TimeChangeableObject target;
 
     private void Start()
     {
@@ -25,17 +25,12 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case State.Normal:
-                /*PlayerMovement(playerIndex);
+                PlayerMovement(playerIndex);
                 PlayerRTrig(playerIndex);
                 PlayerBButton(playerIndex);
-                PlayerLTrig(playerIndex);*/
+                PlayerLTrig(playerIndex);
                 break;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        FindTargetAction();
     }
 
     private void PlayerMovement(int index)
@@ -68,19 +63,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FindTargetAction()
+    public void setTarget(TimeChangeableObject Target)
     {
-        Physics.Raycast(transform.position, Vector3.forward, out target);
+        target = Target;
     }
+
 
     private void CastRaycast(string slowOrHaste)
     {
-        Debug.DrawLine(transform.position, target.point);
-        TimeChangeableObject Hitted = target.collider.GetComponent<TimeChangeableObject>();
-
-        if (Hitted != null)
+        if (target != null)
         {
-            ImplementSlowOrHaste(slowOrHaste, Hitted);
+            ImplementSlowOrHaste(slowOrHaste, target);
         }
     }
 

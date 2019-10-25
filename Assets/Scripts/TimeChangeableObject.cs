@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeChangeableObject : MonoBehaviour
 {
     public int playerIndex = 1;
-    private Rigidbody TimeChangeableObjectBody;
+    public Rigidbody TimeChangeableObjectBody;
     public State state;
     public enum State
     {
