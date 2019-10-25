@@ -8,20 +8,20 @@ public class ColliderForPlayer : MonoBehaviour
     {
         if (other.gameObject.GetComponent<TimeChangeableObject>())
         {
-            TimeChangeableObject pierdole = other.gameObject.GetComponent<TimeChangeableObject>();
-            if (isObjectHiddenByObstacle(pierdole))
+            TimeChangeableObject target = other.gameObject.GetComponent<TimeChangeableObject>();
+            if (isObjectHiddenByObstacle(target))
             {
                 return;
             }
 
-            GetComponentInParent<Player>().setTarget(pierdole);
+            GetComponentInParent<Player>().setTarget(target);
 
         }
     }
-    bool isObjectHiddenByObstacle(TimeChangeableObject pierdole)
+    bool isObjectHiddenByObstacle(TimeChangeableObject target)
     {
-        float distanceToPlayer = Vector3.Distance(GetComponentInParent<TimeChangeableObject>().transform.position, pierdole.TimeChangeableObjectBody.position);
-        RaycastHit[] hits = Physics.RaycastAll(GetComponentInParent<TimeChangeableObject>().transform.position, pierdole.TimeChangeableObjectBody.position - GetComponentInParent<TimeChangeableObject>().transform.position, distanceToPlayer);
+        float distanceToPlayer = Vector3.Distance(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position);
+        RaycastHit[] hits = Physics.RaycastAll(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position - GetComponentInParent<TimeChangeableObject>().transform.position, distanceToPlayer);
 
         foreach (RaycastHit hit in hits)
         {
