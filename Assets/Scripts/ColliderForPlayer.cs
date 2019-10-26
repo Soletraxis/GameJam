@@ -6,19 +6,19 @@ public class ColliderForPlayer : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("ENTER");
+        
         if (other.gameObject.GetComponent<TimeChangeableObject>())
         {
-            Debug.Log("TIMEOBJ");
+            
             TimeChangeableObject target = other.gameObject.GetComponent<TimeChangeableObject>();
             if (isObjectHiddenByObstacle(target))
             {
-                Debug.Log("BLOCK");
+               
                 return;
             }
 
             GetComponentInParent<Player>().setTarget(target);
-            Debug.Log("Target Set");
+            
         }
     }
     bool isObjectHiddenByObstacle(TimeChangeableObject target)
