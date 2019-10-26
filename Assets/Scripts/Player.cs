@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        Mathf.Clamp(playerBody.velocity.magnitude, -topspeed, topspeed);
         cooldownTimer = cooldownInterval;
         playerBody = GetComponent<Rigidbody>();
         state = State.Normal;
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
         foreach (WheelCollider wheel in frontWheels)
         {
             wheel.motorTorque = vertical * Time.deltaTime * acceleration * Torque;
-            wheel.brakeTorque = 4 * brake * Time.deltaTime * acceleration;
+            wheel.brakeTorque = 100 * brake * Time.deltaTime * acceleration;
             wheel.steerAngle = turningspeed * horizontal;
             if(wheel.steerAngle >= wheelMaxRotation)
             {
@@ -102,10 +103,8 @@ public class Player : MonoBehaviour
                 TRC.FastMe(speedPlayerTime, speedPlayerStrenght);
             }
         }
-        else
-        {
-            TRC.FastMeSTOP();
-        }
+        else if (TRC != null)
+         TRC.FastMeSTOP();
     }
     private void PlayerLBump(int index)
     {
@@ -118,7 +117,7 @@ public class Player : MonoBehaviour
                 TRC.SlowMe(slowPlayerTime, slowPlayerStrenght);
             }
         }
-        else
+        else if(TRC != null)
         TRC.SlowMeSTOP();
     }
 

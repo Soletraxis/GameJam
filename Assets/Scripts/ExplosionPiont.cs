@@ -16,7 +16,7 @@ public class ExplosionPiont : MonoBehaviour
         
     }
     
-    // Update is called once per frame
+    /*/ Update is called once per frame
     private void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -28,9 +28,9 @@ public class ExplosionPiont : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(spawnable,transform.position,transform.rotation);
+        //Instantiate(spawnable,transform.position,transform.rotation);
         
-    }
+    }*/
 
     public void Detonate()
     {
