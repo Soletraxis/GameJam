@@ -6,6 +6,9 @@ public class TimeChangeReflect : MonoBehaviour
 {
     Rigidbody rigidbody;
 
+    Player player;
+
+
     float SlowEffectTime = 10.0f;
     
     bool first = false;
@@ -39,12 +42,22 @@ public class TimeChangeReflect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GetComponent<Player>();
         time = 0;
         rigidbody = GetComponent<Rigidbody>();
     }
-   
+    //Transform Time Control
+    public void TransformSlow(float slowDuration, float slowStrenght)
+    {
+
+    }
+
+    public void TransformFast(float fastDuration, float fastStrenght)
+    {
+
+    }
   
-  
+  //ZrobicTuPotem WYŻEJ SLOW NA TRANSLATE
     private void SlowMe(float slowDuration, float slowStrenght)
     {
         duration0 = slowDuration;
@@ -102,6 +115,8 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= timeStrenght0;
                 rigidbody.angularVelocity *= timeStrenght0;
                 rigidbody.useGravity = false;
+                player.acceleration /= (timeStrenght0 * timeStrenght0);
+                
             }
 
             float dt = Time.fixedDeltaTime * timeStrenght0;
@@ -121,7 +136,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= timeStrenght0;
             rigidbody.velocity /= timeStrenght0;
             rigidbody.angularVelocity /= timeStrenght0;
-
+            player.acceleration *= (timeStrenght0 * timeStrenght0);
 
             first0 = false;
         }
@@ -166,7 +181,8 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.mass *= timeStrenght2;
                 rigidbody.velocity /= timeStrenght2;
                 rigidbody.angularVelocity /= timeStrenght2;
-                rigidbody.useGravity = false;
+                rigidbody.useGravity = true;
+                player.acceleration *= (timeStrenght2 * timeStrenght2);
             }
             float dt = Time.fixedDeltaTime / timeStrenght2;
 
@@ -186,7 +202,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass /= timeStrenght2;
             rigidbody.velocity *= timeStrenght2;
             rigidbody.angularVelocity *= timeStrenght2;
-
+            player.acceleration /= (timeStrenght0 * timeStrenght0);
 
             first2 = false;
         }
