@@ -6,23 +6,27 @@ public class ColliderForPlayer : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("ENTER");
         if (other.gameObject.GetComponent<TimeChangeableObject>())
         {
+            Debug.Log("TIMEOBJ");
             TimeChangeableObject target = other.gameObject.GetComponent<TimeChangeableObject>();
             if (isObjectHiddenByObstacle(target))
             {
+                Debug.Log("BLOCK");
                 return;
             }
 
             GetComponentInParent<Player>().setTarget(target);
-
+            Debug.Log("Target Set");
         }
     }
     bool isObjectHiddenByObstacle(TimeChangeableObject target)
     {
-        float distanceToPlayer = Vector3.Distance(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position);
-        RaycastHit[] hits = Physics.RaycastAll(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position - GetComponentInParent<TimeChangeableObject>().transform.position, distanceToPlayer);
-
+        //float distanceToPlayer = Vector3.Distance(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, target.TimeChangeableObjectBody.position);
+       // RaycastHit[] hits = Physics.RaycastAll(GetComponentInParent<TimeChangeableObject>().transform.position, target.TimeChangeableObjectBody.position - GetComponentInParent<TimeChangeableObject>().transform.position, distanceToPlayer);
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, target.TimeChangeableObjectBody.position - transform.position, distanceToPlayer);
         foreach (RaycastHit hit in hits)
         {
             // ignore the enemy's own colliders (and other enemies)

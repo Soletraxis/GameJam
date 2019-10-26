@@ -5,6 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int playerIndex = 1;
+
+    public float slowTargetStrenght = 0.1f;
+    public float speedTargetStrenght = 0.3f;
+    public float slowTargetTime = 5f;
+    public float speedTargetTime = 3f;
+
     public float acceleration = 20f;
     public float topspeed = 30f;
     public float turningspeed = 5;
@@ -73,7 +79,14 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("AButton" + index) > 0.0f)
         {
-            /*SPOWOLNIENIE ELO*/
+            if (target != null)
+            {
+                Debug.Log(target.gameObject.name.ToString());
+                TimeChangeReflect TCR = target.gameObject.GetComponent<TimeChangeReflect>();
+                {
+                    TCR.SlowSth(slowTargetTime, slowTargetStrenght);
+                }
+            }
         }
     }
 
@@ -81,7 +94,13 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("BButton" + index) > 0.0f)
         {
-            /*I SRUUUUU*/
+            if (target != null)
+            {
+                TimeChangeReflect TCR = target.gameObject.GetComponent<TimeChangeReflect>();
+                {
+                    TCR.FastSth(speedTargetTime, speedTargetStrenght);
+                }
+            }
         }
     }
 

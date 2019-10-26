@@ -569,7 +569,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2592426497874546621}
-  m_LocalRotation: {x: 0.10627456, y: -0.0005580438, z: 0.000059662896, w: 0.9943367}
+  m_LocalRotation: {x: 0.106275074, y: -0.00031442934, z: 0.000033626544, w: 0.9943368}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -652,6 +652,7 @@ GameObject:
   - component: {fileID: 2592426498116402848}
   - component: {fileID: 2592426498116402860}
   - component: {fileID: 2592426498116402861}
+  - component: {fileID: 2025426194}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -672,6 +673,7 @@ Transform:
   m_Children:
   - {fileID: 2592426497719485204}
   - {fileID: 7386064899206274854}
+  - {fileID: 1717804510602428292}
   m_Father: {fileID: 2592426497677439807}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -730,6 +732,19 @@ MonoBehaviour:
   - {fileID: 2592426498774774614}
   - {fileID: 2592426498236555842}
   state: 0
+--- !u!114 &2025426194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592426498116402855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068143daa5248b740b41397b323e267b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeScale: 0.2
 --- !u!1 &2592426498236555840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2592426498580795779}
-  m_LocalRotation: {x: 0.10627507, y: 0.00000030574054, z: -0.0000021508115, w: 0.99433684}
+  m_LocalRotation: {x: 0.10627485, y: 0.00000030573165, z: -0.000002150809, w: 0.99433684}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1329,7 +1344,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2592426498941919513}
-  m_LocalRotation: {x: 0.106274955, y: -0.00011136789, z: 0.000010246877, w: 0.9943368}
+  m_LocalRotation: {x: 0.10627487, y: -0.00006264507, z: 0.0000050403296, w: 0.9943368}
   m_LocalPosition: {x: -1.0760841, y: 4.42069, z: -7.838422}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1774,6 +1789,63 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &3210332202624262822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1717804510602428292}
+  - component: {fileID: 2877417299492493824}
+  - component: {fileID: 5140708159222307044}
+  m_Layer: 0
+  m_Name: PrzemekCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1717804510602428292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210332202624262822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2592426498116402851}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2877417299492493824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210332202624262822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d8720384c0c1d47a6a65a348465d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &5140708159222307044
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210332202624262822}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3772771173266963481
 GameObject:
   m_ObjectHideFlags: 0

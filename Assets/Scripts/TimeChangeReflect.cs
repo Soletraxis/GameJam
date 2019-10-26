@@ -47,10 +47,12 @@ public class TimeChangeReflect : MonoBehaviour
     void Start()
     {
         player = GetComponent<Player>();
+        if(player)        susSpringDef = player.allWheels[0].suspensionSpring.spring;
+
         time = 0;
         rigidbody = GetComponent<Rigidbody>();
-        susSpringDef = player.allWheels[0].suspensionSpring.spring;
-        damperDef = player.allWheels[0].suspensionSpring.damper;
+       
+        if(player) damperDef = player.allWheels[0].suspensionSpring.damper;
 
     }
     //Transform Time Control
@@ -99,8 +101,8 @@ public class TimeChangeReflect : MonoBehaviour
 
     void Update()
     {
-        slowMO = Input.GetKey(KeyCode.Z);
-        fastMO = Input.GetKey(KeyCode.C);
+        if(gameObject.tag == "Player") slowMO = Input.GetKey(KeyCode.Z);
+        if (gameObject.tag == "Player") fastMO = Input.GetKey(KeyCode.C);
 
         time += Time.deltaTime;
 
@@ -122,7 +124,7 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= timeStrenght0;
                 rigidbody.angularVelocity *= timeStrenght0;
                 rigidbody.useGravity = false;
-                player.acceleration /= (timeStrenght0 * timeStrenght0);
+               // player.acceleration /= (timeStrenght0 * timeStrenght0);
 
                 foreach (WheelCollider wheel in player.allWheels)
                 {
@@ -152,7 +154,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= timeStrenght0;
             rigidbody.velocity /= timeStrenght0;
             rigidbody.angularVelocity /= timeStrenght0;
-            player.acceleration *= (timeStrenght0 * timeStrenght0);
+          //  player.acceleration *= (timeStrenght0 * timeStrenght0);
 
             foreach (WheelCollider wheel in player.allWheels)
             {
@@ -243,18 +245,21 @@ public class TimeChangeReflect : MonoBehaviour
         }
         else
         {
-            foreach (WheelCollider wheel in player.allWheels)
+            if (player)
             {
-
-                if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+                foreach (WheelCollider wheel in player.allWheels)
                 {
-                    JointSpring suspensionSpring = new JointSpring();
-                    if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
-                    if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
-                    //suspensionSpring.spring = susSpringDef / TimeScale;
-                    // suspensionSpring.damper = damperDef / TimeScale;
-                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
-                    wheel.suspensionSpring = suspensionSpring;
+
+                    if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+                    {
+                        JointSpring suspensionSpring = new JointSpring();
+                        if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
+                        if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
+                        //suspensionSpring.spring = susSpringDef / TimeScale;
+                        // suspensionSpring.damper = damperDef / TimeScale;
+                        suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                        wheel.suspensionSpring = suspensionSpring;
+                    }
                 }
             }
         }
@@ -304,7 +309,7 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= TimeScale;
                 rigidbody.angularVelocity *= TimeScale;
                 rigidbody.useGravity = false;
-                player.acceleration /= (TimeScale * TimeScale);
+               // player.acceleration /= (TimeScale * TimeScale);
 
                 foreach (WheelCollider wheel in player.allWheels)
                 {
@@ -332,7 +337,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= TimeScale;
             rigidbody.velocity /= TimeScale;
             rigidbody.angularVelocity /= TimeScale;
-            player.acceleration *= (TimeScale * TimeScale);
+            //player.acceleration *= (TimeScale * TimeScale);
             foreach (WheelCollider wheel in player.allWheels)
             {
                 JointSpring suspensionSpring = new JointSpring();
@@ -356,19 +361,19 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.angularVelocity /= TimeScale;
                 rigidbody.useGravity = true;
                 player.acceleration *= (TimeScale * TimeScale);
-                
-                foreach(WheelCollider wheel in player.allWheels)
+
+                foreach (WheelCollider wheel in player.allWheels)
                 {
                     JointSpring suspensionSpring = new JointSpring();
-                    suspensionSpring.spring = susSpringDef*TimeScale;
-                    suspensionSpring.damper = damperDef*TimeScale;
+                    suspensionSpring.spring = susSpringDef * TimeScale;
+                    suspensionSpring.damper = damperDef * TimeScale;
                     suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
                     wheel.suspensionSpring = suspensionSpring;
                 }
 
             }
             float dt = Time.fixedDeltaTime / TimeScale;
-            
+
             //rigidbody.AddForce(Vector3.down / Mathf.Abs(Physics.gravity.magnitude) / rigidbody.mass / TimeScale / TimeScale);
 
 
@@ -385,24 +390,27 @@ public class TimeChangeReflect : MonoBehaviour
             player.acceleration /= (TimeScale * TimeScale);
             rigidbody.angularVelocity *= TimeScale;
 
-            
+
 
             second = false;
         }
         else
         {
-            foreach (WheelCollider wheel in player.allWheels)
-            {
-
-                if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+            if (player)
+            { 
+                foreach (WheelCollider wheel in player.allWheels)
                 {
-                    JointSpring suspensionSpring = new JointSpring();
-                    if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
-                    if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
-                    //suspensionSpring.spring = susSpringDef / TimeScale;
-                   // suspensionSpring.damper = damperDef / TimeScale;
-                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
-                    wheel.suspensionSpring = suspensionSpring;
+
+                    if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+                    {
+                        JointSpring suspensionSpring = new JointSpring();
+                        if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
+                        if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
+                        //suspensionSpring.spring = susSpringDef / TimeScale;
+                        // suspensionSpring.damper = damperDef / TimeScale;
+                        suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                        wheel.suspensionSpring = suspensionSpring;
+                    }
                 }
             }
         }
@@ -411,7 +419,7 @@ public class TimeChangeReflect : MonoBehaviour
     }
 
 
-    void OnGUI()
+   /* void OnGUI()
     {
         GUI.Label(new Rect(0, 0, 500, 100), "Velovity    " + rigidbody.velocity.magnitude.ToString());
         GUI.Label(new Rect(0, 15, 500, 100), "Mass    " + rigidbody.mass.ToString());
@@ -421,5 +429,5 @@ public class TimeChangeReflect : MonoBehaviour
         GUI.Label(new Rect(0, 75, 500, 100), "Accel   " + rigidbody.velocity.magnitude/(time),ToString());
         GUI.Label(new Rect(0, 90, 500, 200), "Spring   " + player.allWheels[0].suspensionSpring.spring.ToString(), ToString());
         GUI.Label(new Rect(0, 105, 500, 200), "Damper   " + player.allWheels[0].suspensionSpring.damper.ToString(), ToString());
-    }
+    }*/
 }
