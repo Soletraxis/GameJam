@@ -6,8 +6,12 @@ public class TimeChangeReflect : MonoBehaviour
 {
     Rigidbody rigidbody;
 
+    
+
     Player player;
 
+    float susSpringDef;
+    float damperDef;
 
     float SlowEffectTime = 10.0f;
     
@@ -43,8 +47,13 @@ public class TimeChangeReflect : MonoBehaviour
     void Start()
     {
         player = GetComponent<Player>();
+        if(player)        susSpringDef = player.allWheels[0].suspensionSpring.spring;
+
         time = 0;
         rigidbody = GetComponent<Rigidbody>();
+       
+        if(player) damperDef = player.allWheels[0].suspensionSpring.damper;
+
     }
     //Transform Time Control
     public void TransformSlow(float slowDuration, float slowStrenght)
@@ -92,8 +101,8 @@ public class TimeChangeReflect : MonoBehaviour
 
     void Update()
     {
-        slowMO = Input.GetKey(KeyCode.Z);
-        fastMO = Input.GetKey(KeyCode.C);
+        if(gameObject.tag == "Player") slowMO = Input.GetKey(KeyCode.Z);
+        if (gameObject.tag == "Player") fastMO = Input.GetKey(KeyCode.C);
 
         time += Time.deltaTime;
 
@@ -115,8 +124,17 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= timeStrenght0;
                 rigidbody.angularVelocity *= timeStrenght0;
                 rigidbody.useGravity = false;
-                player.acceleration /= (timeStrenght0 * timeStrenght0);
-                
+               // player.acceleration /= (timeStrenght0 * timeStrenght0);
+
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+                    JointSpring suspensionSpring = new JointSpring();
+                    suspensionSpring.spring = susSpringDef / timeStrenght0;
+                    suspensionSpring.damper = damperDef / timeStrenght0;
+                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                    wheel.suspensionSpring = suspensionSpring;
+                }
+
             }
 
             float dt = Time.fixedDeltaTime * timeStrenght0;
@@ -136,7 +154,16 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= timeStrenght0;
             rigidbody.velocity /= timeStrenght0;
             rigidbody.angularVelocity /= timeStrenght0;
-            player.acceleration *= (timeStrenght0 * timeStrenght0);
+          //  player.acceleration *= (timeStrenght0 * timeStrenght0);
+
+            foreach (WheelCollider wheel in player.allWheels)
+            {
+                JointSpring suspensionSpring = new JointSpring();
+                suspensionSpring.spring = susSpringDef * timeStrenght0;
+                suspensionSpring.damper = damperDef * timeStrenght0;
+                suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                wheel.suspensionSpring = suspensionSpring;
+            }
 
             first0 = false;
         }
@@ -151,7 +178,7 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.useGravity = false;
             }
 
-            float dt = Time.fixedDeltaTime * timeStrenght0;
+            float dt = Time.fixedDeltaTime * timeStrenght1;
 
             rigidbody.AddForce(Vector3.down * Mathf.Abs(Physics.gravity.magnitude) * rigidbody.mass * timeStrenght1 * timeStrenght1);
 
@@ -180,13 +207,23 @@ public class TimeChangeReflect : MonoBehaviour
             {
                 rigidbody.mass *= timeStrenght2;
                 rigidbody.velocity /= timeStrenght2;
+                
                 rigidbody.angularVelocity /= timeStrenght2;
-                rigidbody.useGravity = true;
+                rigidbody.useGravity = false;
                 player.acceleration *= (timeStrenght2 * timeStrenght2);
+
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+                    JointSpring suspensionSpring = new JointSpring();
+                    suspensionSpring.spring = susSpringDef * timeStrenght2;
+                    suspensionSpring.damper = damperDef * timeStrenght2;
+                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                    wheel.suspensionSpring = suspensionSpring;
+                }
             }
             float dt = Time.fixedDeltaTime / timeStrenght2;
 
-            rigidbody.AddForce(Vector3.down / Mathf.Abs(Physics.gravity.magnitude) / rigidbody.mass / timeStrenght2 / timeStrenght2);
+            //rigidbody.AddForce(Vector3.down / Mathf.Abs(Physics.gravity.magnitude) / rigidbody.mass / timeStrenght2 / timeStrenght2);
 
 
             if (duration2 <= 0) invoke2 = false;
@@ -202,10 +239,31 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass /= timeStrenght2;
             rigidbody.velocity *= timeStrenght2;
             rigidbody.angularVelocity *= timeStrenght2;
-            player.acceleration /= (timeStrenght0 * timeStrenght0);
+            player.acceleration /= (timeStrenght2 * timeStrenght2);
 
             first2 = false;
         }
+        else
+        {
+            if (player)
+            {
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+
+                    if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+                    {
+                        JointSpring suspensionSpring = new JointSpring();
+                        if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
+                        if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
+                        //suspensionSpring.spring = susSpringDef / TimeScale;
+                        // suspensionSpring.damper = damperDef / TimeScale;
+                        suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                        wheel.suspensionSpring = suspensionSpring;
+                    }
+                }
+            }
+        }
+
         // FUNKCJA FAST STH
         if (invoke3)
         {
@@ -251,6 +309,17 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= TimeScale;
                 rigidbody.angularVelocity *= TimeScale;
                 rigidbody.useGravity = false;
+               // player.acceleration /= (TimeScale * TimeScale);
+
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+                    JointSpring suspensionSpring = new JointSpring();
+                    suspensionSpring.spring = susSpringDef / TimeScale;
+                    suspensionSpring.damper = damperDef / TimeScale;
+                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                    wheel.suspensionSpring = suspensionSpring;
+                }
+
             }
             float dt = Time.fixedDeltaTime * TimeScale;
             
@@ -268,7 +337,16 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= TimeScale;
             rigidbody.velocity /= TimeScale;
             rigidbody.angularVelocity /= TimeScale;
-            
+            //player.acceleration *= (TimeScale * TimeScale);
+            foreach (WheelCollider wheel in player.allWheels)
+            {
+                JointSpring suspensionSpring = new JointSpring();
+                suspensionSpring.spring = susSpringDef * TimeScale;
+                suspensionSpring.damper = damperDef * TimeScale;
+                suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                wheel.suspensionSpring = suspensionSpring;
+            }
+
             first = false;
         }
 
@@ -281,11 +359,22 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.mass *= TimeScale;
                 rigidbody.velocity /= TimeScale;
                 rigidbody.angularVelocity /= TimeScale;
-                rigidbody.useGravity = false;
+                rigidbody.useGravity = true;
+                player.acceleration *= (TimeScale * TimeScale);
+
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+                    JointSpring suspensionSpring = new JointSpring();
+                    suspensionSpring.spring = susSpringDef * TimeScale;
+                    suspensionSpring.damper = damperDef * TimeScale;
+                    suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                    wheel.suspensionSpring = suspensionSpring;
+                }
+
             }
             float dt = Time.fixedDeltaTime / TimeScale;
 
-            rigidbody.AddForce(Vector3.down / Mathf.Abs(Physics.gravity.magnitude) / rigidbody.mass / TimeScale / TimeScale);
+            //rigidbody.AddForce(Vector3.down / Mathf.Abs(Physics.gravity.magnitude) / rigidbody.mass / TimeScale / TimeScale);
 
 
             second = true;
@@ -298,21 +387,47 @@ public class TimeChangeReflect : MonoBehaviour
             //rigidbody.velocity += Physics.gravity * dt;
             rigidbody.mass /= TimeScale;
             rigidbody.velocity *= TimeScale;
+            player.acceleration /= (TimeScale * TimeScale);
             rigidbody.angularVelocity *= TimeScale;
+
+
 
             second = false;
         }
+        else
+        {
+            if (player)
+            { 
+                foreach (WheelCollider wheel in player.allWheels)
+                {
+
+                    if (wheel.suspensionSpring.spring <= susSpringDef && wheel.suspensionSpring.damper <= damperDef)
+                    {
+                        JointSpring suspensionSpring = new JointSpring();
+                        if (wheel.suspensionSpring.spring <= susSpringDef) suspensionSpring.spring++;
+                        if (wheel.suspensionSpring.damper <= damperDef) suspensionSpring.damper++;
+                        //suspensionSpring.spring = susSpringDef / TimeScale;
+                        // suspensionSpring.damper = damperDef / TimeScale;
+                        suspensionSpring.targetPosition = wheel.suspensionSpring.targetPosition;
+                        wheel.suspensionSpring = suspensionSpring;
+                    }
+                }
+            }
+        }
+
+
     }
 
 
-    void OnGUI()
+   /* void OnGUI()
     {
         GUI.Label(new Rect(0, 0, 500, 100), "Velovity    " + rigidbody.velocity.magnitude.ToString());
         GUI.Label(new Rect(0, 15, 500, 100), "Mass    " + rigidbody.mass.ToString());
         GUI.Label(new Rect(0, 30, 500, 100), "TimeScale    " + Time.timeScale.ToString());
         GUI.Label(new Rect(0, 45, 500, 100), "Z    " + (Input.GetKey(KeyCode.Z) ? "1":"0"));
         GUI.Label(new Rect(0, 60, 500, 100), "AngularVelocity    " + rigidbody.angularVelocity.magnitude.ToString(),ToString());
-        GUI.Label(new Rect(0, 75, 500, 100), "Accel" + rigidbody.velocity.magnitude/(time),ToString());
-
-    }
+        GUI.Label(new Rect(0, 75, 500, 100), "Accel   " + rigidbody.velocity.magnitude/(time),ToString());
+        GUI.Label(new Rect(0, 90, 500, 200), "Spring   " + player.allWheels[0].suspensionSpring.spring.ToString(), ToString());
+        GUI.Label(new Rect(0, 105, 500, 200), "Damper   " + player.allWheels[0].suspensionSpring.damper.ToString(), ToString());
+    }*/
 }
