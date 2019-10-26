@@ -10,10 +10,10 @@ public class Player : MonoBehaviour
     public float speedTargetStrenght = 0.3f;
     public float slowTargetTime = 5f;
     public float speedTargetTime = 3f;
-
-    public float acceleration = 20f;
+    public float acceleration = 10f;
     public float topspeed = 30f;
     public float turningspeed = 5;
+    public float Torque = 10000;
     public float wheelMaxRotation = 30f;
     private Rigidbody playerBody;
     private int loopNumber = 1;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
 
         foreach (WheelCollider wheel in frontWheels)
         {
-            wheel.motorTorque = vertical * Time.deltaTime * acceleration;
+            wheel.motorTorque = vertical * Time.deltaTime * acceleration * Torque;
             wheel.brakeTorque = 4 * brake * Time.deltaTime * acceleration;
             wheel.steerAngle = turningspeed * horizontal;
             if(wheel.steerAngle >= wheelMaxRotation)
