@@ -6,10 +6,18 @@ public class Player : MonoBehaviour
 {
     public int playerIndex = 1;
 
+    private float cooldownTimer;
+    public float cooldownInterval = 3f;
+
     public float slowTargetStrenght = 0.1f;
     public float speedTargetStrenght = 0.3f;
     public float slowTargetTime = 5f;
     public float speedTargetTime = 3f;
+
+    public float slowPlayerStrenght = 0.1f;
+    public float speedPlayerStrenght = 0.3f;
+    public float slowPlayerTime = 5f;
+    public float speedPlayerTime = 3f;
 
     public float acceleration = 20f;
     public float topspeed = 30f;
@@ -18,7 +26,9 @@ public class Player : MonoBehaviour
     private Rigidbody playerBody;
     private int loopNumber = 1;
     private TimeChangeableObject target;
-//<<<<<<< HEAD
+
+    TimeChangeReflect TRC;
+    //<<<<<<< HEAD
 
     [SerializeField] public List<WheelCollider> allWheels = new List<WheelCollider>();
 //=======
@@ -29,8 +39,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        cooldownTimer = cooldownInterval;
         playerBody = GetComponent<Rigidbody>();
         state = State.Normal;
+        TRC = GetComponent<TimeChangeReflect>();
     }
 
     public State state;
@@ -41,12 +53,17 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        
+        cooldownTimer -= Time.deltaTime;
+
         switch (state)
         {
             case State.Normal:
                 PlayerMovement(playerIndex);
                 PlayerBButton(playerIndex);
                 PlayerAButton(playerIndex);
+                PlayerLBump(playerIndex);
+                PlayerRBump(playerIndex);
                 break;
         }
     }
@@ -56,6 +73,7 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal" + index);
         float verticalGo = Input.GetAxis("RTrig" + index);
         float verticalStop = -Input.GetAxis("LTrig" + index);
+        
         float brake = Input.GetAxis("CButton" + index);
         float vertical = verticalGo + verticalStop;
 
@@ -75,6 +93,37 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void PlayerRBump(int index)
+    {
+        if (Input.GetAxis("RBump" + index) > 0f)
+        {
+            if (cooldownTimer <= 0)
+            {
+                cooldownTimer = cooldownInterval;
+                
+                TRC.FastMe(speedPlayerTime, speedPlayerStrenght);
+            }
+        }
+        else
+        {
+            TRC.FastMeSTOP();
+        }
+    }
+    private void PlayerLBump(int index)
+    {
+        if (Input.GetAxis("LBump" + index) > 0f)
+        {
+            if (cooldownTimer <= 0)
+            {
+                cooldownTimer = cooldownInterval;
+                
+                TRC.SlowMe(slowPlayerTime, slowPlayerStrenght);
+            }
+        }
+        else
+        TRC.SlowMeSTOP();
+    }
+
     private void PlayerAButton(int index)
     {
         if (Input.GetAxis("AButton" + index) > 0.0f)
@@ -82,9 +131,9 @@ public class Player : MonoBehaviour
             if (target != null)
             {
                 Debug.Log(target.gameObject.name.ToString());
-                TimeChangeReflect TCR = target.gameObject.GetComponent<TimeChangeReflect>();
+                TimeChangeReflect TCRT = target.gameObject.GetComponent<TimeChangeReflect>();
                 {
-                    TCR.SlowSth(slowTargetTime, slowTargetStrenght);
+                    TCRT.SlowSth(slowTargetTime, slowTargetStrenght);
                 }
             }
         }
@@ -96,9 +145,9 @@ public class Player : MonoBehaviour
         {
             if (target != null)
             {
-                TimeChangeReflect TCR = target.gameObject.GetComponent<TimeChangeReflect>();
+                TimeChangeReflect TCRT = target.gameObject.GetComponent<TimeChangeReflect>();
                 {
-                    TCR.FastSth(speedTargetTime, speedTargetStrenght);
+                    TCRT.FastSth(speedTargetTime, speedTargetStrenght);
                 }
             }
         }
@@ -151,4 +200,5 @@ public class Player : MonoBehaviour
         loopNumber += 1;
         print("loop: "+loopNumber);
     }
+    
 }

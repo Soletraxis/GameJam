@@ -6,7 +6,8 @@ public class TimeChangeReflect : MonoBehaviour
 {
     Rigidbody rigidbody;
 
-    
+    AudioSource audioS;
+
 
     Player player;
 
@@ -67,11 +68,16 @@ public class TimeChangeReflect : MonoBehaviour
     }
   
   //ZrobicTuPotem WYŻEJ SLOW NA TRANSLATE
-    private void SlowMe(float slowDuration, float slowStrenght)
+    public void SlowMe(float slowDuration, float slowStrenght)
     {
         duration0 = slowDuration;
         timeStrenght0 = slowStrenght;
         invoke0 = true;
+    }
+
+    public void SlowMeSTOP()
+    {
+        invoke0 = false;
     }
 
     public void SlowSth(float slowDuration, float slowStrenght)
@@ -81,11 +87,16 @@ public class TimeChangeReflect : MonoBehaviour
         invoke1 = true;
     }
 
-    private void FastMe(float fastDuration, float fastStrenght)
+    public void FastMe(float fastDuration, float fastStrenght)
     {
         duration2 = fastDuration;
         timeStrenght2 = fastStrenght;
         invoke2 = true;
+    }
+    
+    public void FastMeSTOP()
+    {
+        invoke2 = false;
     }
 
     public void FastSth(float fastDuration, float fastStrenght)
@@ -176,8 +187,11 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity *= timeStrenght1;
                 rigidbody.angularVelocity *= timeStrenght1;
                 rigidbody.useGravity = false;
+                audioS = transform.GetChild(0).GetComponent<AudioSource>();
+                audioS.mute = false;
             }
 
+           
             float dt = Time.fixedDeltaTime * timeStrenght1;
 
             rigidbody.AddForce(Vector3.down * Mathf.Abs(Physics.gravity.magnitude) * rigidbody.mass * timeStrenght1 * timeStrenght1);
@@ -185,6 +199,8 @@ public class TimeChangeReflect : MonoBehaviour
 
             if (duration1 <= 0) invoke1 = false;
             first1 = true;
+
+            
 
         }
         else if (first1)
@@ -196,7 +212,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass *= timeStrenght1;
             rigidbody.velocity /= timeStrenght1;
             rigidbody.angularVelocity /= timeStrenght1;
-
+            audioS.mute = true;
 
             first1 = false;
         }
@@ -273,6 +289,8 @@ public class TimeChangeReflect : MonoBehaviour
                 rigidbody.velocity /= timeStrenght3;
                 rigidbody.angularVelocity /= timeStrenght3;
                 rigidbody.useGravity = false;
+                audioS = transform.GetChild(1).GetComponent<AudioSource>();
+                audioS.mute = false;
             }
             float dt = Time.fixedDeltaTime / timeStrenght3;
 
@@ -291,7 +309,7 @@ public class TimeChangeReflect : MonoBehaviour
             rigidbody.mass /= timeStrenght3;
             rigidbody.velocity *= timeStrenght3;
             rigidbody.angularVelocity *= timeStrenght3;
-
+            audioS.mute = true;
 
 
             first3 = false;
