@@ -22,19 +22,17 @@ public class Player : MonoBehaviour
     public float acceleration = 20f;
     public float topspeed = 30f;
     public float turningspeed = 5;
+    public float Torque = 10000;
     public float wheelMaxRotation = 30f;
     private Rigidbody playerBody;
     private int loopNumber = 1;
     private TimeChangeableObject target;
 
     TimeChangeReflect TRC;
-    //<<<<<<< HEAD
 
     [SerializeField] public List<WheelCollider> allWheels = new List<WheelCollider>();
-//=======
     private List<Checkpoint> passedCheckpoint = new List<Checkpoint>();
    
-//>>>>>>> master
     [SerializeField] public List<WheelCollider> frontWheels = new List<WheelCollider>();
 
     private void Start()
@@ -79,7 +77,7 @@ public class Player : MonoBehaviour
 
         foreach (WheelCollider wheel in frontWheels)
         {
-            wheel.motorTorque = vertical * Time.deltaTime * acceleration;
+            wheel.motorTorque = vertical * Time.deltaTime * acceleration * Torque;
             wheel.brakeTorque = 4 * brake * Time.deltaTime * acceleration;
             wheel.steerAngle = turningspeed * horizontal;
             if(wheel.steerAngle >= wheelMaxRotation)
