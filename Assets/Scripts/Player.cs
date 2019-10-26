@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private Rigidbody playerBody;
     private TimeChangeableObject target;
 
-    [SerializeField] private List<WheelCollider> allWheels = new List<WheelCollider>();
+    [SerializeField] public List<WheelCollider> allWheels = new List<WheelCollider>();
     [SerializeField] public List<WheelCollider> frontWheels = new List<WheelCollider>();
 
     private void Start()
