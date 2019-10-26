@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Mathf.Clamp(playerBody.velocity.magnitude, -topspeed, topspeed);
         cooldownTimer = cooldownInterval;
         playerBody = GetComponent<Rigidbody>();
         state = State.Normal;
