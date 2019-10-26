@@ -116,12 +116,12 @@ public class Player : MonoBehaviour
     {
         return checkpoint.getNumberOfCheckpoints() == passedCheckpoint.Count + 1;
     }
-    public void resetCheckpoints(Checkpoint checkpoint)
+    public void resetCheckpoints()
     {
 
-        foreach (Checkpoint jebac in passedCheckpoint)
+        foreach (Checkpoint checkpoint in passedCheckpoint)
         {
-            jebac.resetCheckpointStatus(this);
+            checkpoint.resetCheckpointStatus(this);
         }
         passedCheckpoint.Clear();
         loopNumber += 1;

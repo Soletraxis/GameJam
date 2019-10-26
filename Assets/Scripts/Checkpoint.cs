@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour
         }
          else if(other.gameObject.GetComponent<Player>() != null && isMeta && other.gameObject.GetComponent<Player>().isPlayerCapableToFinish(this))
         {
-            other.gameObject.GetComponent<Player>().resetCheckpoints(this);
+            other.gameObject.GetComponent<Player>().resetCheckpoints();
         }
     }
 
