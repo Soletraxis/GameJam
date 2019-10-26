@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
     public float turningspeed = 5;
     public float wheelMaxRotation = 30f;
     private Rigidbody playerBody;
+    private int loopNumber = 1;
     private TimeChangeableObject target;
-
+    private List<Checkpoint> passedCheckpoint = new List<Checkpoint>();
     [SerializeField] private List<WheelCollider> allWheels = new List<WheelCollider>();
     [SerializeField] public List<WheelCollider> frontWheels = new List<WheelCollider>();
 
@@ -104,5 +105,26 @@ public class Player : MonoBehaviour
                 Hitted.haste();
                 break;
         }
+    }
+
+    public void OnPassedCheckpoint(Checkpoint checkpoint)
+    {
+        passedCheckpoint.Add(checkpoint);
+    }
+
+    public bool isPlayerCapableToFinish(Checkpoint checkpoint)
+    {
+        return checkpoint.getNumberOfCheckpoints() == passedCheckpoint.Count + 1;
+    }
+    public void resetCheckpoints(Checkpoint checkpoint)
+    {
+
+        foreach (Checkpoint jebac in passedCheckpoint)
+        {
+            jebac.resetCheckpointStatus(this);
+        }
+        passedCheckpoint.Clear();
+        loopNumber += 1;
+        print("loop: "+loopNumber);
     }
 }
