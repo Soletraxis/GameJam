@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
                 TRC.FastMe(speedPlayerTime, speedPlayerStrenght);
             }
         }
-        else
+        else if(TRC != null)
         {
             TRC.FastMeSTOP();
         }
@@ -114,12 +114,12 @@ public class Player : MonoBehaviour
             if (cooldownTimer <= 0)
             {
                 cooldownTimer = cooldownInterval;
-                
+
                 TRC.SlowMe(slowPlayerTime, slowPlayerStrenght);
             }
         }
-        else
-        TRC.SlowMeSTOP();
+        else if (TRC != null) TRC.SlowMeSTOP();
+        
     }
 
     private void PlayerAButton(int index)

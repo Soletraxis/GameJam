@@ -19,6 +19,18 @@ public class ColliderForPlayer : MonoBehaviour
 
             GetComponentInParent<Player>().setTarget(target);
             
+        }if(other.gameObject.tag =="ChillPo")
+        {
+            List<GameObject> GOList = new List<GameObject>();
+            GOList.AddRange(GameObject.FindGameObjectsWithTag("ChillPo"));
+            foreach(GameObject train in GOList)
+            {
+                Follower fol = train.GetComponent<Follower>();
+                if(fol != null)
+                {
+                    fol.SlowTrain();
+                }
+            }
         }
     }
     bool isObjectHiddenByObstacle(TimeChangeableObject target)

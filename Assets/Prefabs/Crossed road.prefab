@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7943492045203806400}
   m_Layer: 0
   m_Name: Crossed road
-  m_TagString: Untagged
+  m_TagString: ChillPo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,6 +58,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: wagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 551299183480226115, guid: 1d99706e3fb5450409efdfcb50be7861,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3602249094730068816, guid: 1d99706e3fb5450409efdfcb50be7861,
         type: 3}
