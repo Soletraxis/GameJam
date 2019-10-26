@@ -12,13 +12,13 @@ public class Player : MonoBehaviour
     private Rigidbody playerBody;
     private int loopNumber = 1;
     private TimeChangeableObject target;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
     [SerializeField] public List<WheelCollider> allWheels = new List<WheelCollider>();
-=======
+//=======
     private List<Checkpoint> passedCheckpoint = new List<Checkpoint>();
-    [SerializeField] private List<WheelCollider> allWheels = new List<WheelCollider>();
->>>>>>> master
+   
+//>>>>>>> master
     [SerializeField] public List<WheelCollider> frontWheels = new List<WheelCollider>();
 
     private void Start()
