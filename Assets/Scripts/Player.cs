@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("AButton" + index) > 0.0f)
         {
-            CastRaycast("haste");
+            /*SPOWOLNIENIE ELO*/
         }
     }
 
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("BButton" + index) > 0.0f)
         {
-            CastRaycast("slow");
+            /*I SRUUUUU*/
         }
     }
 
